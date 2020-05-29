@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Planner</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark"> <a class="text-light text-center"> Weather Dashboard </a></nav>
+    <br>
+    <div class="row"> 
+        <div class="col-3"> 
+        <div class="row m-1"> <a class="font-weight-bold"> Search for an Address or City: </a></div>
+        <div class="row m-1"> <input id="city"> <button id="search"> Search </button> </div>
+        <ol id="searches">
+            <li id="pastSearch1"> </li>
+            <li id="pastSearch2"> </li>
+            <li id="pastSearch3"> </li>
+            <li id="pastSearch4"> </li>
+            <li id="pastSearch5"> </li>
+            <li id="pastSearch6"> </li>
+            <li id="pastSearch7"> </li>
+            <li id="pastSearch8"> </li>
+            <li id="pastSearch9"> </li>
+            <li id="pastSearch10"> </li>
+
+        </ol>
+        </div>
+
+        <div class="col-8 border border-dark">
+        <div id="cityName" class="city-font"> Location Name: </div>
+        <br>
+        <div id="currentTemp"> Temperature: </div>
+        <br>
+        <div id="currentHumidity"> Current Humidity: </div>
+        <br> 
+        <div id="currentWind"> Current Wind Speed: </div>
+        <br>
+        <div id="currentUV"> Current UV Index: </div>
+        </div>
+    </div>
+<br>
+
+
+    <div class="row"> 
+        <div class="col-2 m-1">
+            <div class="border border-dark bg-primary text-white"> 
+            <form>
+                <div class="form-group" id="date0"> </div>
+                <img class="form-group" id="pic0">
+                <div class="form-group" id="temp0"> </div>
+                <div class="form-group" id="humid0"></div>
+            </form>
+            </div>
+            <br> 
+        </div>
+
+            <div class="col-2 m-1">
+
+            <div class="border border-dark bg-primary text-white"> 
+                <form>
+                    <div class="form-group" id="date1"> </div>
+                    <img class="form-group" id="pic1">
+                    <div class="form-group" id="temp1"> </div>
+                    <div class="form-group" id="humid1"></div>
+                </form>
+                </div>
+                <br> 
+            </div>
+            
+            <div class="col-2 m-1">
+                
+                <div class="border border-dark bg-primary text-white"> 
+                    <form>
+                        <div class="form-group" id="date2"> </div>
+                        <img class="form-group" id="pic2">
+                        <div class="form-group" id="temp2"> </div>
+                        <div class="form-group" id="humid2"></div>
+                    </form>
+                    </div>
+                    <br> 
+            </div>
+       
+            <div class="col-2 m-1">
+                 <div class="border border-dark bg-primary text-white"> 
+                    <form>
+                        <div class="form-group" id="date3"> </div>
+                        <img class="form-group" id="pic3">
+                        <div class="form-group" id="temp3"> </div>
+                        <div class="form-group" id="humid3"></div>
+                    </form>
+                 </div>
+                <br> 
+            </div>
+
+        <div class="col-2 m-1"> 
+            <div class="border border-dark bg-primary text-white"> 
+            <form>
+                <div class="form-group" id="date4"> </div>
+                <img class="form-group" id="pic4">
+                <div class="form-group" id="temp4"> </div>
+                <div class="form-group" id="humid4"></div>
+            </form>
+            </div>
+            <br> 
+        </div>
+
+
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="./script.js"> </script>
+</body>
+</html>
