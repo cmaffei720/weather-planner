@@ -1,5 +1,5 @@
 //set day variable to create dates on forecast cards
-var day = moment().format('DD-MM-YYYY');
+var day = moment().format('MMMM Do YYYY');
 //set id for local storage
 var id = localStorage.getItem("id")
 
@@ -7,15 +7,28 @@ if (id === null) {
     id = 1
 }
 
-for (i = 1; i < 11; i++) {
-    var search0 = "#pastSearch"+i
-    $(search0).text(localStorage.getItem("city"+i))
+
+for (i=0; i<25; i++) {
+var append = localStorage.getItem("city"+i)
+var newDiv = $("<div>").text(append)
+    $("#searches").prepend(newDiv)
 }
+
 
 
 //search bar function
 $("#search").on("click", function() {
 
+    getWeather()
+})
+
+// $("#searches").on("click", function () {
+//     var city = $(this).text()
+//     getWeather()
+// })
+
+
+function getWeather (city) {
 var city = $("#city").val()
 //encode location to pass into Geocoding API (need latitude and longitude)
 var encodedlocation = encodeURIComponent(city)
@@ -41,7 +54,7 @@ $.ajax(settings).done(function (response) {
     console.log(long)
 
     //pass address from Trueway API call into Current City field
-    $("#cityName").text(response.results[0].address)
+    $("#cityName").text(response.results[0].address + "; " + day)
 
     //api call to open weather - gets both CURRENT and FUTURE weather
     var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+long+"&exclude={minutely,hourly}&units=imperial&appid=9c6b950acd57094b5e66afeffa21d8c4"
@@ -68,12 +81,11 @@ $.ajax({
         var c = "#humid"+i
         var d = "#pic"+i
 
-        var newDay = moment(day, "DD-MM-YYYY").add(i+1, "days")
+        var newDay = moment(day, "MMMM Do YYYY").add(i+1, "days")
         $(a).text(moment(newDay).format("MMMM Do YYYY"))
 
         $(b).text("Day Temp: "+response.daily[i].temp.day + String.fromCharCode(176)+"F")
         $(c).text("Humidity: "+response.daily[i].humidity + "%")
-        //$(d).attr("src", "01.png")
         $(d).attr("height", "50")
         $(d).attr("width", "50")
 
@@ -98,9 +110,10 @@ $.ajax({
 
     console.log("id after click" + id)
 
-//on button function closed
-})
+ // getWeather function closed
+}
 
+//get cities from local storage
 
 
 //UPDATE THIS IS CANCELLED CAUSE I GOT THE ONE CALL WEATHER API TO WORK
