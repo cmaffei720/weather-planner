@@ -1,3 +1,23 @@
 .city-font{
     font-size: 25px
 }
+
+.low {
+    background-color: green;
+}
+
+.moderate {
+    background-color: yellow;
+}
+
+.high {
+    background-color: orange;
+}
+
+.veryhigh {
+    background-color: red;
+}
+
+.extreme {
+    background-color: violet;
+}

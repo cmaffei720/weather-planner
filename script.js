@@ -10,13 +10,13 @@ if (id === null) {
 }
 
 
-//get last searched cities, add to OL
+//get last searched cities from local, add to OL
 for (i=0; i<id; i++) {
 var oldSearch = localStorage.getItem("city"+i)
 var newDiv = $("<div>").text(oldSearch)
     newDiv.attr("class", "btn-dark")
     newDiv.attr("data-name", oldSearch)
-    $("#searches").prepend(newDiv)
+    $("#existing").prepend(newDiv)
 }
 
 
@@ -60,10 +60,29 @@ $.ajax({
 
     //pass current weather parameters into top section for current weather
     $("#currentWeather").text("Weather: "+response.current.weather[0].main)
+    $("#currentIcon").attr("src", "http://openweathermap.org/img/wn/"+response.current.weather[0].icon+"@2x.png")
     $("#currentTemp").text("Temperature: "+response.current.temp + String.fromCharCode(176)+"F")
     $("#currentHumidity").text("Humidity: "+response.current.humidity + "%")
     $("#currentWind").text("Wind Speed: "+response.current.wind_speed +" MPH")
     $("#currentUV").text("UV Index: "+response.current.uvi)
+
+    //log to change UVI background color based on UVI
+    var uvi = response.current.uvi
+    if (uvi < 3) {
+        $("#currentUV").attr("class", "low")
+    }
+    else if (uvi > 3 && uvi < 6) {
+        $("#currentUV").attr("class", "moderate")
+    }
+    else if (uvi > 6 && uvi < 8) {
+        $("#currentUV").attr("class", "high")
+    }
+    else if (uvi > 8 && uvi < 11) {
+        $("#currentUV").attr("class", "veryhigh")
+    }
+    else if (uvi > 11) {
+        $("#currentUV").attr("class", "extreme")
+    }
 
     //for loop - find weather for next 5 days, pass into forms & divs with IDs 0-4 (5 days total)
     for (i = 0; i < 5; i++) {
@@ -80,9 +99,8 @@ $.ajax({
         $(d).attr("height", "50")
         $(d).attr("width", "50")
 
-        var icon = response.daily[i].weather[0].icon
-        //find image to use based on weather
-        $(d).attr("src", "http://openweathermap.org/img/wn/"+icon+"@2x.png")
+        //find icon to use based on weather
+        $(d).attr("src", "http://openweathermap.org/img/wn/"+response.daily[i].weather[0].icon+"@2x.png")
     }
 //ajax done
 })
@@ -93,7 +111,7 @@ $.ajax({
     newDiv.text(city)
     newDiv.attr("class", "btn-dark")
     newDiv.attr("data-name", city)
-    $("#searches").prepend(newDiv)
+    $("#existing").prepend(newDiv)
     localStorage.setItem("city"+id, city)
     $("#city").val("")
     //cycle id up 1, add new ID to local storage (needs to be retrieved on page load)
@@ -116,7 +134,8 @@ if (id > 1) {
 
 //call main function on any previous search button click, city = city in data attribute "data-name"
 $(".btn-dark").on("click", function() {
-    getWeather($(this).attr("data-name"))
+    var cityclick = $(this).attr("data-name")
+    getWeather(cityclick)
 })
 
 //trigger function on search button click, city = searched city
