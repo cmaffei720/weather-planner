@@ -90,14 +90,13 @@ $.ajax({
         var b = "#temp"+i
         var c = "#humid"+i
         var d = "#pic"+i
-
+        
+        //use moment to find next date, add to date Div
         var newDay = moment(day, "MMMM Do YYYY").add(i+1, "days")
         $(a).text(moment(newDay).format("MMMM Do YYYY"))
 
         $(b).text("Day Temp: "+response.daily[i].temp.day + String.fromCharCode(176)+"F")
         $(c).text("Humidity: "+response.daily[i].humidity + "%")
-        $(d).attr("height", "50")
-        $(d).attr("width", "50")
 
         //find icon to use based on weather
         $(d).attr("src", "http://openweathermap.org/img/wn/"+response.daily[i].weather[0].icon+"@2x.png")
