@@ -132,7 +132,8 @@ if (id > 1) {
 }
 
 //call main function on any previous search button click, city = city in data attribute "data-name"
-$(".btn-dark").on("click", function() {
+
+$(document).on("click", ".btn-dark", function() {
     var cityclick = $(this).attr("data-name")
     getWeather(cityclick)
 })
