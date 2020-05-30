@@ -3,33 +3,47 @@ var day = moment().format('MMMM Do YYYY');
 //set id for local storage
 var id = localStorage.getItem("id")
 
+//if first time loading, cycle ID up to 1
 if (id === null) {
     id = 1
 }
 
+//if reloading the page after running, run main function with previously used city
+if (id > 1) {
+    var minus = id-1
+    getWeather(localStorage.getItem("city"+minus))
+}
 
-for (i=0; i<25; i++) {
-var append = localStorage.getItem("city"+i)
-var newDiv = $("<div>").text(append)
+//get last 10 searched cities
+for (i=0; i<id; i++) {
+var oldSearch = localStorage.getItem("city"+i)
+var newDiv = $("<div>").text(oldSearch)
+    newDiv.attr("class", "btn-dark")
+    newDiv.attr("data-name", oldSearch)
     $("#searches").prepend(newDiv)
 }
 
 
+$(".btn-dark").on("click", function() {
+    getWeather($(this).attr("data-name"))
+})
+
 
 //search bar function
 $("#search").on("click", function() {
-
-    getWeather()
+    getWeather($("#city").val())
 })
 
-// $("#searches").on("click", function () {
-//     var city = $(this).text()
-//     getWeather()
-// })
-
-
+//main function
 function getWeather (city) {
-var city = $("#city").val()
+ 
+//if ($(this).attr("data-name") === "") 
+    // var city = $("#city").val()
+
+    // if ($("#city").val("")){
+    //     city = localStorage.getItem("city"+id-1)
+    // }
+
 //encode location to pass into Geocoding API (need latitude and longitude)
 var encodedlocation = encodeURIComponent(city)
 console.log(encodedlocation)
@@ -49,7 +63,6 @@ var settings = {
 $.ajax(settings).done(function (response) {
     var lat = response.results[0].location.lat
     var long = response.results[0].location.lng
-    console.log(response)
     console.log(lat)
     console.log(long)
 
@@ -68,7 +81,7 @@ $.ajax({
     console.log(response)
 
     //pass current weather parameters into top section for current weather
-
+    $("#currentWeather").text("Weather: "+response.current.weather[0].main)
     $("#currentTemp").text("Temperature: "+response.current.temp + String.fromCharCode(176)+"F")
     $("#currentHumidity").text("Humidity: "+response.current.humidity + "%")
     $("#currentWind").text("Wind Speed: "+response.current.wind_speed +" MPH")
@@ -100,9 +113,13 @@ $.ajax({
     //set city into local storage and into OL
     // var search = "#pastSearch"+id
     // $(search).text(city)
-    var newDiv = $("<div>").text(city)
+    var newDiv = $("<div>")
+    newDiv.text(city)
+    newDiv.attr("class", "btn-dark")
+    newDiv.attr("data-name", city)
     $("#searches").prepend(newDiv)
     localStorage.setItem("city"+id, city)
+    $("#city").val("")
     //cycle id up 1, add new ID to local storage (needs to be retrieved on page load)
     id++
     localStorage.setItem("id", id)
@@ -110,8 +127,42 @@ $.ajax({
 
     console.log("id after click" + id)
 
+
  // getWeather function closed
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //get cities from local storage
 
