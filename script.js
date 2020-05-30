@@ -1,5 +1,6 @@
 //set day variable to create dates on forecast cards
 var day = moment().format('MMMM Do YYYY');
+
 //set id for local storage
 var id = localStorage.getItem("id")
 
@@ -8,13 +9,8 @@ if (id === null) {
     id = 1
 }
 
-//if reloading the page after running, run main function with previously used city
-if (id > 1) {
-    var minus = id-1
-    getWeather(localStorage.getItem("city"+minus))
-}
 
-//get last 10 searched cities
+//get last searched cities, add to OL
 for (i=0; i<id; i++) {
 var oldSearch = localStorage.getItem("city"+i)
 var newDiv = $("<div>").text(oldSearch)
@@ -24,25 +20,8 @@ var newDiv = $("<div>").text(oldSearch)
 }
 
 
-$(".btn-dark").on("click", function() {
-    getWeather($(this).attr("data-name"))
-})
-
-
-//search bar function
-$("#search").on("click", function() {
-    getWeather($("#city").val())
-})
-
 //main function
 function getWeather (city) {
- 
-//if ($(this).attr("data-name") === "") 
-    // var city = $("#city").val()
-
-    // if ($("#city").val("")){
-    //     city = localStorage.getItem("city"+id-1)
-    // }
 
 //encode location to pass into Geocoding API (need latitude and longitude)
 var encodedlocation = encodeURIComponent(city)
@@ -66,14 +45,13 @@ $.ajax(settings).done(function (response) {
     console.log(lat)
     console.log(long)
 
-    //pass address from Trueway API call into Current City field
+    //pass lat/long from Trueway API into Current City field
     $("#cityName").text(response.results[0].address + "; " + day)
 
     //api call to open weather - gets both CURRENT and FUTURE weather
     var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+long+"&exclude={minutely,hourly}&units=imperial&appid=9c6b950acd57094b5e66afeffa21d8c4"
 
-
-    //work with open weather API call
+    //work with open weather API response
 $.ajax({
     url: queryURL,
     method: "GET"
@@ -87,7 +65,7 @@ $.ajax({
     $("#currentWind").text("Wind Speed: "+response.current.wind_speed +" MPH")
     $("#currentUV").text("UV Index: "+response.current.uvi)
 
-    //for loop - find weather for next 5 days, pass into forms & divs
+    //for loop - find weather for next 5 days, pass into forms & divs with IDs 0-4 (5 days total)
     for (i = 0; i < 5; i++) {
         var a = "#date"+i
         var b = "#temp"+i
@@ -110,9 +88,7 @@ $.ajax({
 })
 })
 
-    //set city into local storage and into OL
-    // var search = "#pastSearch"+id
-    // $(search).text(city)
+    //set city into local storage and into OL, with data attribute "data-name" equal to search
     var newDiv = $("<div>")
     newDiv.text(city)
     newDiv.attr("class", "btn-dark")
@@ -124,50 +100,34 @@ $.ajax({
     id++
     localStorage.setItem("id", id)
     
-
+    //check that id properly cycled up & is accurate
     console.log("id after click" + id)
 
-
- // getWeather function closed
+ // close getWeather function
 }
 
+//Below are the 3 situations to call the function - a refresh, a click on a past search, and a search
+
+//if reloading the page after running, run main function with previously used city
+if (id > 1) {
+    var minusOne = id-1
+    getWeather(localStorage.getItem("city"+minusOne))
+
+//call main function on any previous search button click, city = city in data attribute "data-name"
+$(".btn-dark").on("click", function() {
+    getWeather($(this).attr("data-name"))
+})
+
+//trigger function on search button click, city = searched city
+$("#search").on("click", function() {
+    getWeather($("#city").val())
+})
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//get cities from local storage
-
-
-//UPDATE THIS IS CANCELLED CAUSE I GOT THE ONE CALL WEATHER API TO WORK
+//UPDATE THIS SECTION IS CANCELLED BECAUSE THE ONE CALL WEATHER API WORKS WITH GEOCODED LAT/LONG
 
 //var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip="+zip+",us&units=imperial&appid=9c6b950acd57094b5e66afeffa21d8c4"
 //var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?zip="+zip+",us&units=imperial&appid=9c6b950acd57094b5e66afeffa21d8c4"
@@ -186,9 +146,6 @@ $.ajax({
 //     $("#currentWind").text("Wind Speed: "+response.wind.speed +" MPH")
 //     $("#currentUV").text("UV Index: ")
 // })
-
-
-//UPDATE THIS IS CANCELLED CAUSE I GOT THE ONE CALL WEATHER API TO WORK
 
 //ajax and for loop - find the 12:00 weather update each day
 
