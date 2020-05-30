@@ -112,6 +112,7 @@ $.ajax({
 if (id > 1) {
     var minusOne = id-1
     getWeather(localStorage.getItem("city"+minusOne))
+}
 
 //call main function on any previous search button click, city = city in data attribute "data-name"
 $(".btn-dark").on("click", function() {
