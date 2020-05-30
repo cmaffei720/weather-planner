@@ -126,8 +126,6 @@ $("#search").on("click", function() {
 
 
 
-
-
 //UPDATE THIS SECTION IS CANCELLED BECAUSE THE ONE CALL WEATHER API WORKS WITH GEOCODED LAT/LONG
 
 //var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip="+zip+",us&units=imperial&appid=9c6b950acd57094b5e66afeffa21d8c4"
